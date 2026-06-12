@@ -185,14 +185,9 @@ RETURN kim, refactor, improve, security, platform, r, atr, co1, co2;
 ### 다단계 경로 조회
 
 ```cypher
-MATCH p =
-  (kim:Person {이름: "김민수"})
-  -[:RESPONSIBLE_FOR]->
-  (:Project {이름: "결제 시스템 리팩터링"})
-  -[:CONTRIBUTES_TO]->
-  (:Project {이름: "장애율 개선 프로젝트"})
-  <-[:COLLABORATES_ON]-
-  (team:Team {이름: "보안팀"})
+MATCH (start:Person {이름: "김민수"})
+MATCH (end:Team {이름: "보안팀"})
+MATCH p = (start)-[*1..5]-(end)
 RETURN p;
 ```
 
@@ -202,6 +197,23 @@ MATCH (end:Team {이름: "보안팀"})
 MATCH p = shortestPath((start)-[*1..5]-(end))
 RETURN p;
 ```
+
+* shortestPath : https://neo4j.com/docs/cypher-manual/current/patterns/shortest-paths/
+
+```cypher
+MATCH p =
+  (kim:Person {이름: "김민수"})
+  -[:RESPONSIBLE_FOR]->
+  (:Project {이름: "결제 시스템 리팩터링"})
+  -[:AIMS_TO_REDUCE]->
+  (:Project {이름: "장애율 개선 프로젝트"})
+  <-[:COLLABORATES_ON]-
+  (team:Team {이름: "보안팀"})
+RETURN p;
+```
+
+* LangChain neo4j_graph.py : https://github.com/langchain-ai/langchain-neo4j/blob/main/libs/neo4j/langchain_neo4j/graphs/neo4j_graph.py
+* LangChain cypher.py : https://github.com/langchain-ai/langchain-neo4j/blob/main/libs/neo4j/langchain_neo4j/chains/graph_qa/cypher.py
 
 ## 4. Update
 
@@ -264,7 +276,7 @@ MATCH (refactor:Project {id: "결제 시스템 리팩터링"})
 MATCH (team:Team)
 WHERE team.id IN ["보안팀", "플랫폼팀"]
 
-OPTIONAL MATCH (team)-[old]->(refactor)
+MATCH (team)-[old]->(refactor)
 DELETE old
 ```
 
