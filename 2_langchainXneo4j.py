@@ -8,12 +8,13 @@ load_dotenv()
 URI = os.getenv("NEO4J_URI")
 USERNAME = os.getenv("NEO4J_USERNAME")
 PASSWORD = os.getenv("NEO4J_PASSWORD")
+DATABASE = os.getenv("NEO4J_DATABASE")
 
 graph = Neo4jGraph(
     url=URI,
     username=USERNAME,
     password=PASSWORD,
-    database="neo4j",
+    database=DATABASE
 )
 
 graph.query(

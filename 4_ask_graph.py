@@ -9,11 +9,16 @@ load_dotenv()
 
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-5.5")
 
+URI = os.getenv("NEO4J_URI")
+USERNAME = os.getenv("NEO4J_USERNAME")
+PASSWORD = os.getenv("NEO4J_PASSWORD")
+DATABASE = os.getenv("NEO4J_DATABASE")
+
 graph = Neo4jGraph(
-    url=os.getenv("NEO4J_URI"),
-    username=os.getenv("NEO4J_USERNAME"),
-    password=os.getenv("NEO4J_PASSWORD"),
-    database="neo4j",
+    url=URI,
+    username=USERNAME,
+    password=PASSWORD,
+    database=DATABASE
 )
 
 llm = ChatOpenAI(
