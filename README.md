@@ -57,6 +57,13 @@ Neo4j Desktop을 실행합니다.
 http://localhost:7474
 ```
 
+DB 초기화
+
+```cypher
+MATCH (n)
+DETACH DELETE n;
+```
+
 ## 환경변수
 
 프로젝트 루트에 `.env` 파일을 만들고 값을 채웁니다.
